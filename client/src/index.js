@@ -7,11 +7,12 @@ import { BrowserRouter } from "react-router-dom";
 import 'antd/dist/antd.css' //ant design css file
 
 ReactDOM.render(
-  <React.StrictMode>
+  //<React.StrictMode>
     <BrowserRouter>
       <App />
     </BrowserRouter>
-  </React.StrictMode>,
+  //</React.StrictMode>
+  ,
   document.getElementById('root')
 );
 
