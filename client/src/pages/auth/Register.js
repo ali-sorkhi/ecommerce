@@ -1,7 +1,6 @@
 import React, {useState} from 'react'
 import { auth } from "../../firebase";
-import {toast, ToastContainer} from 'react-toastify'
-import "react-toastify/dist/ReactToastify.css";
+import {toast} from 'react-toastify'
 
 const Register = () => {
 
@@ -10,8 +9,9 @@ const Register = () => {
     const handleSubmit = async (e) => {
         e.preventDefault(); //preventing to reload page
         //firebse doc:
+        console.log( process.env.REACT_APP_REGISTER_REDIRECT_URL)
         const config ={
-            url: 'http://localhost:3000/register/complete',
+            url: process.env.REACT_APP_REGISTER_REDIRECT_URL,
             handleCodeInApp: true
         }
 
@@ -19,7 +19,7 @@ const Register = () => {
         toast.success(`Email is sent to ${email}. click link to complete registration`);
 
         //save user email in local storage
-        window.localStorage.setItem('emailForSignIn', email);
+        window.localStorage.setItem('emailForRegistration', email);
 
         //clear state: 
         setEmail("");
@@ -47,7 +47,6 @@ const Register = () => {
             <div className="row">
                 <div className="col-md-6 offset-md-3">
                     <h4>Register</h4>
-                    <ToastContainer />
                     {registerForm()}
                 </div>
             </div>
