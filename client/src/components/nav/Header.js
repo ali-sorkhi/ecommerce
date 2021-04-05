@@ -9,7 +9,10 @@ import {
 } from "@ant-design/icons";
 import { Link } from "react-router-dom"; //to make our nav links work
 import firebase from "firebase";
-import { useDispatch } from "react-redux";
+import {
+  useDispatch /* to update state */,
+  useSelector /* to get data from state  */,
+} from "react-redux";
 
 //we can't access history like in RegisterComplete cuz Header is not a route so we should access it like this:
 import { useHistory } from "react-router-dom";
@@ -22,6 +25,9 @@ const Header = () => {
   const [current, setCurrent] = useState("home"); // [stateName, function to setState]=useState('defult value') //useState import
 
   let dispatch = useDispatch();
+  //to get user data from redux store
+  let { user } = useSelector((state) => ({ ...state })); //let state = useSelector((state)=>state);
+
   let history = useHistory();
 
   const handleClick = (e) => {
@@ -43,20 +49,30 @@ const Header = () => {
         <Link to="/">Home</Link>
       </Item>
 
-      <Item key="register" icon={<UserAddOutlined />} className="float-right">
-        <Link to="/register">Register</Link>
-      </Item>
-
-      <Item key="login" icon={<UserOutlined />} className="float-right">
-        <Link to="/login">Login</Link>
-      </Item>
-
-      <SubMenu icon={<SettingOutlined />} title="Username">
-        <Item key="setting:1">Option 1</Item>
-        <Item icon={<LogoutOutlined />} onClick={logout}>
-          Logout
+      {!user && (
+        <Item key="register" icon={<UserAddOutlined />} className="float-right">
+          <Link to="/register">Register</Link>
         </Item>
-      </SubMenu>
+      )}
+
+      {!user && (
+        <Item key="login" icon={<UserOutlined />} className="float-right">
+          <Link to="/login">Login</Link>
+        </Item>
+      )}
+
+      {user && (
+        <SubMenu
+          icon={<SettingOutlined />}
+          title={user.name && user.name.split("@")[0]}
+          className="float-right"
+        >
+          <Item key="setting:1">Option 1</Item>
+          <Item icon={<LogoutOutlined />} onClick={logout}>
+            Logout
+          </Item>
+        </SubMenu>
+      )}
     </Menu>
   );
 };
