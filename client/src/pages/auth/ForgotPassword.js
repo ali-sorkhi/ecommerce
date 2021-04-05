@@ -8,25 +8,36 @@ const ForgotPassword = ({ history }) => {
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
 
+  //to redirect if user is loged in:
+  let { user } = useSelector((state) => ({ ...state }));
+
+  useEffect(() => {
+    if (user && user.token) {
+      history.push("/");
+    }
+  }, [user]);
+  // ...
+
   const handleSubmit = async (e) => {
     e.preventDefault(); //preventing to reload page
     setLoading(true);
 
     const config = {
-        url: process.env.REACT_APP_FORGOT_PASSWORD_REDIRECT_URL,
-        handleCodeInApp: true,
-      };
+      url: process.env.REACT_APP_FORGOT_PASSWORD_REDIRECT_URL,
+      handleCodeInApp: true,
+    };
 
-    await auth.sendPasswordResetEmail(email, config)
-    .then(() => {
-        setEmail('');
-        setLoading(false)
+    await auth
+      .sendPasswordResetEmail(email, config)
+      .then(() => {
+        setEmail("");
+        setLoading(false);
         toast.success("the password reset link has been sent to your email");
-    })
-    .catch((error) => {
+      })
+      .catch((error) => {
         setLoading(false);
         toast.error(error.message);
-    })
+      });
   };
 
   return (
@@ -49,7 +60,7 @@ const ForgotPassword = ({ history }) => {
             block
             shape="round"
             size="large"
-            disabled={!email }
+            disabled={!email}
           >
             Login with Email/Password
           </Button>

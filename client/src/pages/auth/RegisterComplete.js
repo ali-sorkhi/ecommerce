@@ -1,12 +1,23 @@
 import React, { useState, useEffect } from "react";
 import { auth } from "../../firebase";
 import { toast } from "react-toastify";
+import { useSelector } from "react-redux";
 
 const RegisterComplete = (
   { history } /*we can access history cuz RegisterComplete is a route*/
 ) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  //to redirect if user is loged in:
+  let { user } = useSelector((state) => ({ ...state }));
+
+  useEffect(() => {
+    if (user && user.token) {
+      history.push("/");
+    }
+  }, [user]);
+  // ...
 
   useEffect(() => {
     setEmail(window.localStorage.getItem("emailForRegistration"));
