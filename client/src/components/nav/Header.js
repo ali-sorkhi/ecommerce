@@ -1,39 +1,64 @@
-import React, {useState}/* to create local state in functions*/ from 'react'
-import { Menu } from 'antd';
-import { HomeOutlined, SettingOutlined, UserOutlined, UserAddOutlined } from '@ant-design/icons';
+import React, { useState /* to create local state in functions*/ } from "react";
+import { Menu } from "antd";
+import {
+  HomeOutlined,
+  SettingOutlined,
+  UserOutlined,
+  UserAddOutlined,
+  LogoutOutlined,
+} from "@ant-design/icons";
 import { Link } from "react-router-dom"; //to make our nav links work
+import firebase from "firebase";
+import { useDispatch } from "react-redux";
 
-const { SubMenu, Item } = Menu;  //{subMenu} = menu.subMenu
+//we can't access history like in RegisterComplete cuz Header is not a route so we should access it like this:
+import { useHistory } from "react-router-dom";
+
+const { SubMenu, Item } = Menu; //{subMenu} = menu.subMenu
 /* above line means instead of using <Menu.Item> or <Menu.Submenu> 
 we can use <Item> and <Submenu> */
 
 const Header = () => {
-    const [current, setCurrent] = useState('home'); // [stateName, function to setState]=useState('defult value') //useState import
-    
-    const handleClick = (e) => {
-        setCurrent(e.key); //e.key gets back the key of cliced menu
-    }
+  const [current, setCurrent] = useState("home"); // [stateName, function to setState]=useState('defult value') //useState import
 
-    return(
-        <Menu onClick={handleClick} selectedKeys={[current]} mode="horizontal">
-            <Item key="home" icon={<HomeOutlined />}>
-                <Link to="/" >Home</Link>
-            </Item>
+  let dispatch = useDispatch();
+  let history = useHistory();
 
-            <Item key="register" icon={<UserAddOutlined />} className="float-right">
-                <Link to="/register" >Register</Link>
-            </Item>
+  const handleClick = (e) => {
+    setCurrent(e.key); //e.key gets back the key of cliced menu
+  };
 
-            <Item key="login" icon={<UserOutlined />} className="float-right">
-                <Link to="/login" >Login</Link>
-            </Item>
+  const logout = () => {
+    firebase.auth().signOut();
+    dispatch({
+      type: "LOGOUT",
+      payload: null,
+    });
+    history.push("/login");
+  };
 
-            <SubMenu icon={<SettingOutlined />} title="Username">
-                <Item key="setting:1">Option 1</Item>
-                <Item key="setting:2">Option 2</Item>
-            </SubMenu>
-        </Menu>
-    );
-}
+  return (
+    <Menu onClick={handleClick} selectedKeys={[current]} mode="horizontal">
+      <Item key="home" icon={<HomeOutlined />}>
+        <Link to="/">Home</Link>
+      </Item>
 
-export default Header
+      <Item key="register" icon={<UserAddOutlined />} className="float-right">
+        <Link to="/register">Register</Link>
+      </Item>
+
+      <Item key="login" icon={<UserOutlined />} className="float-right">
+        <Link to="/login">Login</Link>
+      </Item>
+
+      <SubMenu icon={<SettingOutlined />} title="Username">
+        <Item key="setting:1">Option 1</Item>
+        <Item icon={<LogoutOutlined />} onClick={logout}>
+          Logout
+        </Item>
+      </SubMenu>
+    </Menu>
+  );
+};
+
+export default Header;
