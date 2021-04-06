@@ -2,9 +2,12 @@ const express = require("express");
 
 const router = express.Router();
 
-//import contoller:
-const { createOrUpdateUser } = require("../controllers/auth")
+//middlewares:
+const { authCheck } = require("../middlewares/auth");
 
-router.get("/create-or-update-user", createOrUpdateUser);
+//import contoller:
+const { createOrUpdateUser } = require("../controllers/auth");
+
+router.post("/create-or-update-user", authCheck, createOrUpdateUser); //post cuz we post data from FE to BE
 
 module.exports = router;
