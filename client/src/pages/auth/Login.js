@@ -31,7 +31,7 @@ const Login = ({ history }) => {
     if (user && user.token) {
       history.push("/");
     }
-  }, [user]);
+  }, [history, user]);
   // ...
 
   let dispatch = useDispatch();
