@@ -13,7 +13,7 @@ exports.authCheck = async (req, res, next /*cuz it's a middleware we should use 
       .auth()
       .getUser(req.headers.authtoken,true); */
       
-    req.user = { name: "ali.s" , email: "ali.s7101992@gmail.com" , picture : "" }
+    req.user = { name: req.headers.email.split("@")[0] , email: req.headers.email , picture : "" }
     
     next();
   } catch (error) {
