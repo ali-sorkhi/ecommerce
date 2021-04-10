@@ -14,7 +14,7 @@ exports.authCheck = async (req, res, next /*cuz it's a middleware we should use 
       .getUser(req.headers.authtoken,true); */
       
     req.user = { name: req.headers.email.split("@")[0] , email: req.headers.email , picture : "" }
-    
+    console.log(req.user);
     next();
   } catch (error) {
     res.status(401).json({

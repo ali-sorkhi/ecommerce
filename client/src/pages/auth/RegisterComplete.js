@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { auth } from "../../firebase";
 import { toast } from "react-toastify";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import {createOrUpdateUser} from "../../functions/auth";
 
 const RegisterComplete = (
   { history } /*we can access history cuz RegisterComplete is a route*/
@@ -10,7 +11,7 @@ const RegisterComplete = (
   const [password, setPassword] = useState("");
 
   //to redirect if user is loged in:
-  let { user } = useSelector((state) => ({ ...state }));
+  const { user } = useSelector((state) => ({ ...state }));
 
   useEffect(() => {
     if (user && user.token) {
@@ -22,6 +23,8 @@ const RegisterComplete = (
   useEffect(() => {
     setEmail(window.localStorage.getItem("emailForRegistration"));
   }, []); //runs the func every time componnets mount or dependencie array [] changes
+
+  let dispatch = useDispatch();
 
   const handleSubmit = async (e) => {
     e.preventDefault(); //preventing to reload page
@@ -52,6 +55,20 @@ const RegisterComplete = (
 
         //redux store
 
+        createOrUpdateUser(idTokenResult.token, email)
+          .then((res) => {
+            dispatch({
+              type: "LOGGED_IN_USER",
+              payload: {
+                name: res.data.name,
+                email: res.data.email,
+                token: idTokenResult.token,
+                role: res.data.role,
+                _id: res.data._id,
+              },
+            });
+          })
+          .catch();
         //redirect
         history.push("/");
       }

@@ -15,7 +15,7 @@ mongoose
   .connect(process.env.DATABASE, {
     useNewUrlParser: true,
     useCreateIndex: true,
-    useFindAndModify: true,
+    useFindAndModify: false,
   })
   .then()
   .catch((err) => console.log("DB CONNECTION ERROR:", err));
