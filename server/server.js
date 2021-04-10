@@ -41,4 +41,4 @@ fs.readdirSync("./routes").map((route) =>
 
 //port:
 const port = process.env.PORT || 8000;
-app.listen(port, () => console.log(` app listening on port: ${port}!`));
+app.listen(port, () => console.log(`app listening on port: ${port}!`));
