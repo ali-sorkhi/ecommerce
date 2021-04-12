@@ -9,7 +9,7 @@ const History = () => {
         <div className="col-md-2">
           <UserNav />
         </div>
-        <div className="col">user History</div>
+        <div className="col">user wishlist</div>
       </div>
     </div>
   );

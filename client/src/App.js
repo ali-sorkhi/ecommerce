@@ -10,7 +10,9 @@ import Register from "./pages/auth/Register";
 import RegisterComplete from "./pages/auth/RegisterComplete";
 import ForgotPassword from "./pages/auth/ForgotPassword";
 import History from "./pages/user/History";
-import { UserRoutes } from "./components/routes/UserRoutes";
+import { UserRoutes } from "./components/routes/UserRoutes"; //to use protected routes
+import Password from "./pages/user/Password";
+import Wishlist from "./pages/user/Wishlist";
 
 import { auth } from "./firebase";
 import { useDispatch } from "react-redux";
@@ -57,6 +59,8 @@ const App = () => {
         <Route exact path="/register/complete" component={RegisterComplete} />
         <Route exact path="/forgot/password" component={ForgotPassword} />
         <UserRoutes exact path="/user/History" component={History} />
+        <UserRoutes exact path="/user/password" component={Password} />
+        <UserRoutes exact path="/user/wishlist" component={Wishlist} />
       </Switch>
     </>
   );
