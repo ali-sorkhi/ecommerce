@@ -55,7 +55,7 @@ const RegisterComplete = (
 
         //redux store
 
-        createOrUpdateUser(idTokenResult.token, email)
+        createOrUpdateUser(idTokenResult.token, user.email)
           .then((res) => {
             dispatch({
               type: "LOGGED_IN_USER",
@@ -68,7 +68,9 @@ const RegisterComplete = (
               },
             });
           })
-          .catch();
+          .catch((err) => {
+            console.log(err)
+          });
         //redirect
         history.push("/");
       }

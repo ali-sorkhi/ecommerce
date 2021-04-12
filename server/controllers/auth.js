@@ -16,3 +16,11 @@ exports.createOrUpdateUser = async (req, res) => {
     const newUser = await new User({ email, name, picture }).save(); //how to add new record to collection
   }
 };
+
+exports.currentUser = async (req, res) => {
+  await User.findOne({ email: req.user.email }).exec((err, user) => {
+    //find.execute
+    if (err) throw new Error();
+    res.json(user);
+  });
+};

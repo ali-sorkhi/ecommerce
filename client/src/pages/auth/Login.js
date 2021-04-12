@@ -5,8 +5,7 @@ import { Button } from "antd";
 import { MailOutlined, GoogleOutlined } from "@ant-design/icons";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import {createOrUpdateUser} from "../../functions/auth";
-
+import { createOrUpdateUser } from "../../functions/auth";
 
 const Login = ({ history }) => {
   const [email, setEmail] = useState("ali.s7101992@gmail.com");
@@ -35,7 +34,7 @@ const Login = ({ history }) => {
       const { user } = result;
       const idTokenResult = await user.getIdTokenResult();
 
-      createOrUpdateUser(idTokenResult.token, email)
+      createOrUpdateUser(idTokenResult.token, user.email)
         .then((res) => {
           dispatch({
             type: "LOGGED_IN_USER",
@@ -48,7 +47,9 @@ const Login = ({ history }) => {
             },
           });
         })
-        .catch();
+        .catch((err) => {
+          console.log(err)
+        });
 
       history.push("/");
     } catch (error) {
@@ -64,7 +65,7 @@ const Login = ({ history }) => {
         const { user } = result;
         const idTokenResult = await user.getIdTokenResult();
 
-        createOrUpdateUser(idTokenResult.token, email)
+        createOrUpdateUser(idTokenResult.token, user.email)
           .then((res) => {
             dispatch({
               type: "LOGGED_IN_USER",
@@ -77,7 +78,9 @@ const Login = ({ history }) => {
               },
             });
           })
-          .catch();
+          .catch((err) => {
+            console.log(err)
+          });
 
         history.push("/");
       })

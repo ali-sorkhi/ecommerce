@@ -6,8 +6,9 @@ const router = express.Router();
 const { authCheck } = require("../middlewares/auth");
 
 //import contoller:
-const { createOrUpdateUser } = require("../controllers/auth");
+const { createOrUpdateUser, currentUser } = require("../controllers/auth");
 
 router.post("/create-or-update-user", authCheck, createOrUpdateUser); //post cuz we post data from FE to BE
+router.post("/current-user", authCheck, currentUser);
 
 module.exports = router;
