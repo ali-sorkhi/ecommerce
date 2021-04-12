@@ -9,6 +9,8 @@ import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
 import RegisterComplete from "./pages/auth/RegisterComplete";
 import ForgotPassword from "./pages/auth/ForgotPassword";
+import History from "./pages/user/History";
+import { UserRoutes } from "./components/routes/UserRoutes";
 
 import { auth } from "./firebase";
 import { useDispatch } from "react-redux";
@@ -37,7 +39,7 @@ const App = () => {
             });
           })
           .catch((err) => {
-            console.log(err)
+            console.log(err);
           });
       }
     });
@@ -54,6 +56,7 @@ const App = () => {
         <Route exact path="/register" component={Register} />
         <Route exact path="/register/complete" component={RegisterComplete} />
         <Route exact path="/forgot/password" component={ForgotPassword} />
+        <UserRoutes exact path="/user/History" component={History} />
       </Switch>
     </>
   );
