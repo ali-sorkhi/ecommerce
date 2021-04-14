@@ -17,7 +17,7 @@ const RegisterComplete = (
     if (user && user.token) {
       history.push("/");
     }
-  }, [user]);
+  }, [history, user]);
   // ...
 
   useEffect(() => {
