@@ -10,7 +10,6 @@ export const AdminRoutes = ({ children, ...rest }) => {
 
   useEffect(() => {
     if (user && user.token) {
-      //console.log(user);
       if (user.role === "admin"){
         setOk(true);
       }
