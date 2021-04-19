@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from "react";
 import AdminNav from "../../../components/nav/AdminNav";
+import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
+import { Button } from "antd";
+import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import {
   createCategory,
   getCategories,
@@ -12,6 +15,17 @@ const CategoryCreate = () => {
   const { user } = useSelector((state) => ({ ...state }));
   const [name, setName] = useState("");
   const [loading, setLoading] = useState(false);
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => { //we can use this insted of componentMounts
+    loadCategories();
+  }, []);
+
+  const loadCategories = () => {
+    getCategories().then((c) => {
+      setCategories(c.data);
+    });
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -21,13 +35,31 @@ const CategoryCreate = () => {
         setLoading(false);
         setName("");
         toast.success(`"${res.data.name}" is created`);
+        loadCategories();
       })
       .catch((err) => {
-          console.log(err);
+        console.log(err);
         setLoading(false);
         if (err.response.status === 400) toast.error(err.response.data);
       });
   };
+
+  const handleRemove = async (slug) => {
+    if(window.confirm(`Delete ${slug}`)){
+      setLoading(true);
+      removeCategory(slug, user.token).then((res) => {
+        setLoading(false);
+        toast.error(`${res.data.name} deleted`);
+        loadCategories();
+      }).catch((err) => {
+        if(err.response.status===400){
+          setLoading(false);
+          toast.error(err.response.data)
+        }
+      })
+    }
+  }
+  
 
   const categoryForm = () => (
     <form onSubmit={handleSubmit}>
@@ -44,7 +76,27 @@ const CategoryCreate = () => {
           required
         />
         <br />
-        <button className="btn btn-outline-primary">Save</button>
+        {!loading ? (
+          <Button
+            onClick={handleSubmit}
+            type="primary"
+            className="mb-3"
+            shape="round"
+          >
+            Save
+          </Button>
+        ) : (
+          <Button
+            onClick={handleSubmit}
+            type="primary"
+            className="mb-3"
+            shape="round"
+            disabled
+            loading={loading}
+          >
+            Loading
+          </Button>
+        )}
       </div>
     </form>
   );
@@ -58,6 +110,20 @@ const CategoryCreate = () => {
         <div className="col">
           <h4>Create Category</h4>
           {categoryForm()}
+          <hr />
+          {categories.map((category) => (
+            <div className="alert alert-secondary" key={category._id}>
+              {category.name}
+              <span onClick={()=>handleRemove(category.slug)} className="btn btn-sm float-right">
+                <DeleteOutlined className="text-danger"/>
+              </span>
+              <Link to={`/admin/category/${category.slug}`}>
+                <span className="btn btn-sm float-right">
+                  <EditOutlined className="text-warning"/>
+                </span>
+              </Link>
+            </div>
+          ))}
         </div>
       </div>
     </div>
