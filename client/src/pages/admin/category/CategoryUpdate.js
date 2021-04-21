@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
 import { Button } from "antd";
 import { updateCategory, getCategory } from "../../../functions/category";
+import CategoryForm from "../../../components/forms/CategoryForm";
 
 const CategoryUpdate = ({ history, match /* to accesss slug */ }) => {
   const { user } = useSelector((state) => ({ ...state }));
@@ -12,7 +13,7 @@ const CategoryUpdate = ({ history, match /* to accesss slug */ }) => {
 
   useEffect(() => {
     loadCategory();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const loadCategory = () => {
@@ -38,46 +39,6 @@ const CategoryUpdate = ({ history, match /* to accesss slug */ }) => {
       });
   };
 
-  const categoryForm = () => (
-    <form onSubmit={handleSubmit}>
-      <div className="form-group">
-        <label>Name</label>
-        <input
-          type="text"
-          className="form-control"
-          onChange={(e) => {
-            setName(e.target.value);
-          }}
-          value={name}
-          autoFocus
-          required
-        />
-        <br />
-        {!loading ? (
-          <Button
-            onClick={handleSubmit}
-            type="primary"
-            className="mb-3"
-            shape="round"
-          >
-            Save
-          </Button>
-        ) : (
-          <Button
-            onClick={handleSubmit}
-            type="primary"
-            className="mb-3"
-            shape="round"
-            disabled
-            loading={loading}
-          >
-            Loading
-          </Button>
-        )}
-      </div>
-    </form>
-  );
-
   return (
     <div className="container-fluid">
       <div className="row">
@@ -86,7 +47,12 @@ const CategoryUpdate = ({ history, match /* to accesss slug */ }) => {
         </div>
         <div className="col">
           <h4>Update Category</h4>
-          {categoryForm()}
+          <CategoryForm
+            handleSubmit={handleSubmit}
+            name={name}
+            setName={setName}
+            loading={loading}
+          />
           <hr />
         </div>
       </div>
