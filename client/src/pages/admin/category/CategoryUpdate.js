@@ -12,6 +12,7 @@ const CategoryUpdate = ({ history, match /* to accesss slug */ }) => {
 
   useEffect(() => {
     loadCategory();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const loadCategory = () => {
