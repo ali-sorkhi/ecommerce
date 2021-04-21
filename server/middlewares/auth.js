@@ -24,7 +24,6 @@ exports.authCheck = async (
       error: "invalid or expired token",
     });
 
-    console.log(server_time);
   }
 };
 
