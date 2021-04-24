@@ -1,7 +1,7 @@
 import React from "react";
 import { Button } from "antd";
 
-const CategoryForm = ({ handleSubmit, name, setName, loading }) => {
+const CategoryForm = ({ handleSubmit, name, setName, loading }) => (
   <form onSubmit={handleSubmit}>
     <div className="form-group">
       <label>Name</label>
@@ -38,7 +38,7 @@ const CategoryForm = ({ handleSubmit, name, setName, loading }) => {
         </Button>
       )}
     </div>
-  </form>;
-};
+  </form>
+);
 
 export default CategoryForm;
