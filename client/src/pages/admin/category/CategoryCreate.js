@@ -10,12 +10,16 @@ import {
   removeCategory,
 } from "../../../functions/category";
 import CategoryForm from "../../../components/forms/CategoryForm";
+import LocalSearch from "../../../components/forms/LocalSearch";
 
 const CategoryCreate = () => {
   const { user } = useSelector((state) => ({ ...state }));
   const [name, setName] = useState("");
   const [loading, setLoading] = useState(false);
   const [categories, setCategories] = useState([]);
+
+  //searching state:
+  const [keyword, setKeyword] = useState("");
 
   useEffect(() => {
     //we can use this insted of componentMounts
@@ -63,6 +67,8 @@ const CategoryCreate = () => {
     }
   };
 
+  const searched = (keyword) => (c) => c.name.toLowerCase().includes(keyword);
+
   return (
     <div className="container-fluid">
       <div className="row">
@@ -77,8 +83,11 @@ const CategoryCreate = () => {
             setName={setName}
             loading={loading}
           />
-          <hr />
-          {categories.map((category) => (
+          <LocalSearch
+            keyword={keyword}
+            setKeyword={setKeyword}
+          />
+          {categories.filter(searched(keyword)).map((category) => (
             <div className="alert alert-secondary" key={category._id}>
               {category.name}
               <span
