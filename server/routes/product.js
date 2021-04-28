@@ -5,8 +5,9 @@ const router = express.Router();
 const { authCheck, adminCheck } = require("../middlewares/auth");
 
 //import contoller:
-const { create } = require("../controllers/product");
+const { create, read } = require("../controllers/product");
 
 router.post("/product", authCheck, adminCheck, create);
+router.get("/products", authCheck, adminCheck, create);
 
 module.exports = router;
