@@ -4,9 +4,7 @@ import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
 import { createProduct } from "../../../functions/product";
 import ProductCreateForm from "../../../components/forms/ProductCreateForm";
-import {
-  getCategories,
-} from "../../../functions/category";
+import { getCategories, getCategorySubs } from "../../../functions/category";
 
 const initialState = {
   title: "",
@@ -27,21 +25,22 @@ const initialState = {
 export default function ProductCreate() {
   const [values, setValues] = useState(initialState);
   const [loading, setLoading] = useState(false);
+  const [subOptions, setSubOptions] = useState([]);
+  const [showSub, setShowSub] = useState(false);
 
   //redux
   const { user } = useSelector((state) => ({ ...state }));
 
   useEffect(() => {
     loadCategories();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const loadCategories = () => {
     getCategories().then((c) => {
-      setValues({ ...values, categories:c.data})
-    })
-  }
-  
+      setValues({ ...values, categories: c.data });
+    });
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -64,6 +63,18 @@ export default function ProductCreate() {
     setValues({ ...values, [e.target.name]: e.target.value });
   };
 
+  const handleCategoryChange = (e) => {
+    e.preventDefault();
+    setValues({ ...values,subs:[], category: e.target.value });
+    getCategorySubs(e.target.value)
+      .then((res) => {
+        setSubOptions(res.data);
+      })
+      .catch();
+
+    setShowSub(true);
+  };
+
   return (
     <div className="container-fluid">
       <div className="row">
@@ -76,8 +87,12 @@ export default function ProductCreate() {
           <ProductCreateForm
             handleChange={handleChange}
             handleSubmit={handleSubmit}
+            setValues={setValues}
             values={values}
             loading={loading}
+            handleCategoryChange={handleCategoryChange}
+            subOptions={subOptions}
+            showSub={showSub}
           />
         </div>
       </div>

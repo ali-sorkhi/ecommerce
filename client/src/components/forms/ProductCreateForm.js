@@ -1,13 +1,18 @@
 import React from "react";
-import { Button } from "antd";
+import { Button, Select } from "antd";
+
+const { Option } = Select;
 
 export default function ProductCreateForm({
   handleChange,
   handleSubmit,
+  setValues,
   values,
   loading,
+  handleCategoryChange,
+  subOptions,
+  showSub,
 }) {
-
   //destructure  to use title instead of values.title => title=value.title
   const {
     title,
@@ -109,22 +114,40 @@ export default function ProductCreateForm({
       </div>
 
       <div className="form-group">
-            <label>Category</label>
-            <select
-              name="category"
-              className="form-control"
-              onChange={handleChange}
-            >
-              <option>Please Select</option>
-              {categories.length > 0 &&
-                categories.map((category) => (
-                  <option key={category._id} value={category._id}>
-                    {category.name}
-                  </option>
-                ))}
-            </select>
-          </div>
+        <label>Category</label>
+        <select
+          name="category"
+          className="form-control"
+          onChange={handleCategoryChange}
+        >
+          <option>Please Select</option>
+          {categories.length > 0 &&
+            categories.map((category) => (
+              <option key={category._id} value={category._id}>
+                {category.name}
+              </option>
+            ))}
+        </select>
+      </div>
 
+      {showSub && <div>
+        <label>Sub Category</label>
+        <Select
+          mode="multiple"
+          style={{ width: "100%" }}
+          placeholder="please Select"
+          value={subs}
+          onChange={(value) => setValues({ ...values, subs: value })}
+        >
+          {subOptions.length &&
+            subOptions.map((s) => (
+              <Option key={s._id} value={s._id}>
+                {s.name}
+              </Option>
+            ))}
+        </Select>
+      </div>}
+      <br />
       {!loading ? (
         <Button
           onClick={handleSubmit}
