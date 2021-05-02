@@ -92,10 +92,10 @@ export default function ProductCreate() {
             loading={loading}
             handleCategoryChange={handleCategoryChange}
             subOptions={subOptions}
-            showSub={showSub}
+            showSub={showSub} 
           />
         </div>
-      </div>
+      </div> 
     </div>
   );
 }
