@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import { createProduct } from "../../../functions/product";
 import ProductCreateForm from "../../../components/forms/ProductCreateForm";
 import { getCategories, getCategorySubs } from "../../../functions/category";
+import FileUpload from "../../../components/forms/FileUpload";
 
 const initialState = {
   title: "",
@@ -65,7 +66,7 @@ export default function ProductCreate() {
 
   const handleCategoryChange = (e) => {
     e.preventDefault();
-    setValues({ ...values,subs:[], category: e.target.value });
+    setValues({ ...values, subs: [], category: e.target.value });
     getCategorySubs(e.target.value)
       .then((res) => {
         setSubOptions(res.data);
@@ -84,6 +85,14 @@ export default function ProductCreate() {
         <div className="col-md-10">
           <h4>Product create</h4>
           <hr />
+          <div className="p-3">
+            <FileUpload
+              values={values}
+              setValues={setValues}
+              loading={loading}
+              setLoading={setLoading}
+            />
+          </div>
           <ProductCreateForm
             handleChange={handleChange}
             handleSubmit={handleSubmit}
@@ -92,10 +101,10 @@ export default function ProductCreate() {
             loading={loading}
             handleCategoryChange={handleCategoryChange}
             subOptions={subOptions}
-            showSub={showSub} 
+            showSub={showSub}
           />
         </div>
-      </div> 
+      </div>
     </div>
   );
 }
