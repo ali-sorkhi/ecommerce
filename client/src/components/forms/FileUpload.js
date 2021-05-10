@@ -77,7 +77,7 @@ const FileUpload = ({ values, setValues, loading, setLoading }, email) => {
       });
   };
 
-  return (
+  return ( 
     <>
       <div className="row">
         {values.images &&
