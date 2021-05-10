@@ -77,12 +77,12 @@ const FileUpload = ({ values, setValues, loading, setLoading }, email) => {
       });
   };
 
-  return ( 
+  return (
     <>
       <div className="row">
         {values.images &&
-          values.images.map((image) => (
-            loading ? <LoadingOutlined /> : <Badge
+          loading ? <LoadingOutlined /> : values.images.map((image) => (
+            <Badge
               count="X"
               key={image.public_id}
               style={{ cursor: "pointer" }}
