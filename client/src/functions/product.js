@@ -21,3 +21,16 @@ export const removeProduct = async (slug, authtoken, email) => {
     },
   });
 };
+
+export const getProduct = async (slug) => {
+  return await axios.get(`${process.env.REACT_APP_API}/product/${slug}`);
+}
+
+export const updateProduct = async (slug, product, authtoken, email) => {
+  return await axios.put(`${process.env.REACT_APP_API}/product/${slug}`, product, {
+    headers: {
+      authtoken, // == authtoken : authtoken
+      email,
+    },
+  });
+};
